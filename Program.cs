@@ -26,6 +26,11 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-
+app.MapGet("/pokemon", async (AppDbContext context) =>
+{
+   var pokemons = await context.Pokemon.ToListAsync();
+    if (pokemons.Count == 0) return Results.NotFound("Dados não encontrados");
+    return Results.Ok(await context.Pokemon.ToListAsync()); 
+});
 
 app.Run();
